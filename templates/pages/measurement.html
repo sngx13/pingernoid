@@ -1,0 +1,99 @@
+{[{ template "header.html" .}]}
+<div class="row g-3 mt-3 mb-3">
+    <div class="col-sm-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-vial-circle-check"></i>
+                    Measurement ID: <span class="badge bg-dark">{[{ .data.ID }]}</span>
+                </h5>
+                <div id="tracePath" style="height: 280px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    Alerts
+                </h5>
+                <div class="table-responsive">
+                    <table id="alerts" class="table table-sm" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th><i class="fa-solid fa-clock"></i> Timestamp</th>
+                                <th><i class="fa-solid fa-gears"></i> Reason</th>
+                                <th><i class="fa-solid fa-comments"></i> Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {[{ range .data.Alerts }]}
+                            <tr>
+                                <td>{[{ .AlertTimestamp }]}</td>
+                                <td>{[{ .AlertReason }]}</td>
+                                <td>{[{ .AlertMessage }]}</td>
+                            </tr>
+                            {[{ end }]}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-3 mb-3">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-chart-simple"></i>
+                    Packet Statistics
+                </h5>
+                <div id="measurement_pkt_chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-frog"></i>
+                    Hops Taken
+                </h5>
+                <div id="measurement_hop_chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-chart-line"></i>
+                    Latency Statistics
+                </h5>
+                <div id="measurement_rtt_chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Measurement Results -->
+<script src="/static/js/charts/combined.js"></script>
+<script src="/static/js/visualisation/tracepath.js"></script>
+<script>
+    window.onload = function () {
+        // Load initial graph with 24H range
+        drawCharts("{[{ .data.ID }]}", 24);
+        // Display latest trace path
+        drawTracePath("{[{ .data.ID }]}");
+    };
+    $(document).ready(function () {
+        $('#alerts').DataTable(
+            {
+                order: [[0, "desc"]]
+            }
+        )
+    }
+    );
+</script>
+{[{ template "footer.html" .}]}

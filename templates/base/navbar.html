@@ -1,0 +1,39 @@
+<!--navbar.html-->
+<nav class="navbar navbar-expand-lg bg-body-tertiary border border-dark-subtle rounded shadow">
+    <div class="container-fluid">
+        <span class="navbar-brand">
+            <i class="fa-brands fa-reddit-alien fa-xl"></i>
+            PingerNoid
+        </span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav nav-underline">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">
+                        <i class="fa-solid fa-gauge-high"></i>
+                        Dashboard
+                    </a>
+                </li>
+            </ul>
+        </div>
+        {[{ if .userIP }]}
+        <div class="navbar navbar-text navbar-end">
+            <a class="btn btn-xs btn-secondary text-light" hx-get="/api/v1/site/visitor/info/{[{ .userIP }]}" hx-trigger="load" hx-target="#user_info"
+                nunjucks-template="user_info_template" href="/visitors">
+                Hi
+                <i class="fa-solid fa-at"></i>
+                {[{ .userIP }]}
+                <span id="user_info"></span>
+            </a>
+            <template id="user_info_template">
+                {% if data %}
+                <span>ISP: {{ data.isp }}</span>
+                {% endif %}
+            </template>
+        </div>
+        {[{ end }]}
+    </div>
+</nav>

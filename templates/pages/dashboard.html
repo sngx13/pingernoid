@@ -1,0 +1,97 @@
+{[{ template "header.html" .}]}
+<div class="row g-3 mt-3 mb-3">
+    <div class="col-sm-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-circle-plus"></i>
+                    Create ICMP Measurement
+                </h5>
+                <div class="d-flex flex-column">
+                    <form method="POST" autocomplete="off">
+                        <label class="form-label">
+                            <span>
+                                <i class="fa-solid fa-at"></i>
+                                Target IP
+                            </span>
+                        </label>
+                        <div class="input-group input-group-sm mb-3">
+                            <input class="form-control" type="text" placeholder="IP Address e.g: 1.1.1.1" class="input input-bordered input-sm w-full"
+                                name="target"
+                                hx-post="/api/v1/checks/target/verify" hx-trigger="keyup"
+                                hx-target="#messages" nunjucks-template="messages_template" minlength="7" maxlength="15" required />
+                        </div>
+                        <label class="form-label">
+                            <span>
+                                <i class="fa-solid fa-cubes"></i>
+                                Packet Count
+                            </span>
+                        </label>
+                        <div class="input-group input-group-sm mb-3">
+                            <select class="form-select" name="packet_count" type="number">
+                                <option selected disabled>Select</option>
+                                <option value="5">Five (5)</option>
+                                <option value="10">Ten (10)</option>
+                                <option value="50">Fifty (50)</option>
+                                <option value="100">Hundred (100)</option>
+                            </select>
+                        </div>
+                        <label class="form-label">
+                            <span>
+                                <i class="fa-solid fa-stopwatch"></i>
+                                Frequency
+                            </span>
+                        </label>
+                        <div class="input-group input-group-sm mb-3">
+                            <select class="form-select" name="frequency" type="number">
+                                <option selected disabled>Select</option>
+                                <option value="1">Every One Minute (1)</option>
+                                <option value="3">Every Three Minutes (3)</option>
+                                <option value="5">Every Five Minutes (5)</option>
+                                <option value="10">Every Ten Minutes (10)</option>
+                            </select>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <button class="btn btn-sm btn-primary" hx-post="/api/v1/measurements/create" hx-ext="json-enc" hx-target="#messages"
+                                nunjucks-template="messages_template">
+                                <i class="fa-solid fa-wrench"></i>
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-gears"></i>
+                    Running Measurements
+                </h5>
+                <div class="table-responsive">
+                    <table id="measurements" class="table table-sm" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th><i class="fa-solid fa-hashtag"></i> Measurement ID</th>
+                                <th><i class="fa-solid fa-calendar-plus"></i> Created On</th>
+                                <th><i class="fa-solid fa-heart-circle-bolt"></i> Last Poll</th>
+                                <th><i class="fa-solid fa-bullseye"></i> Target</th>
+                                <th><i class="fa-solid fa-envelopes-bulk"></i> Packets</th>
+                                <th><i class="fa-solid fa-business-time"></i> Frequency</th>
+                                <th><i class="fa-solid fa-plug-circle-bolt"></i> Status</th>
+                                <th><i class="fa-solid fa-square-poll-vertical"></i> Results</th>
+                                <th><i class="fa-solid fa-bell"></i> Alerts</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Measurements Table -->
+<script src="/static/js/tables/measurements.js"></script>
+{[{ template "footer.html" .}]}

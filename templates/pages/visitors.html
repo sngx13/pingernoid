@@ -1,0 +1,21 @@
+{[{ template "header.html" .}]}
+<div class="row g-3 mt-3 mb-3">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-flag"></i>
+                    Visits by Country
+                </h5>
+                <div id="visitors_chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Measurement Results -->
+<script src="/static/js/charts/visitors.js"></script>
+<script>
+    // Load visitors chart
+    window.onload = drawVisitorsChart();
+</script>
+{[{ template "footer.html" .}]}

@@ -1,0 +1,20 @@
+<!--footer.html-->
+<!-- Page Errors -->
+{[{ template "errors.html" .}]}
+<!-- End of Page Errors -->
+<script>
+    // Tooltip
+    $(document).ready(function () {
+        $('[data-bs-toggle="tooltip"]').tooltip({
+            'placement': 'top'
+        });
+    });
+    // HTMX Triggered Page Refresh
+    document.body.addEventListener("pageRefresh", function (evt) {
+        setTimeout(location.reload.bind(location), 3000);
+    });
+</script>
+</div>
+</body>
+
+</html>

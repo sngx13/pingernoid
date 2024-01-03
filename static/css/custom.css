@@ -1,0 +1,104 @@
+/* NavBar
+-------------------------------------------------- */
+nav {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+/* Body
+-------------------------------------------------- */
+body {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* Card
+-------------------------------------------------- */
+.card {
+    transition: 0.3s;
+    position: relative;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.card-header {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: #e6e6e6;
+}
+
+/* Table Defaults
+-------------------------------------------------- */
+th {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+td {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+}
+
+/* Blink (icons)
+-------------------------------------------------- */
+.blink {
+    animation: blink 2s steps(5, start) infinite;
+    -webkit-animation: blink 1s steps(5, start) infinite;
+}
+
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+/* Button Extra Small
+-------------------------------------------------- */
+.btn-group-xs>.btn,
+.btn-xs {
+    padding: .25rem .4rem;
+    font-size: .875rem;
+    line-height: .5;
+    border-radius: .2rem;
+}
+
+/* Config Text
+-------------------------------------------------- */
+pre {
+    display: inline;
+}
+
+/* HTMX
+-------------------------------------------------- */
+.htmx-settling img {
+    opacity: 0;
+}
+
+.htmx-indicator {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+}
+
+.htmx-request .htmx-indicator {
+    opacity: 1
+}
+
+.htmx-request.htmx-indicator {
+    opacity: 1
+}
+
+img {
+    transition: opacity 300ms ease-in;
+}
