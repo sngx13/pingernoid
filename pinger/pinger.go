@@ -44,7 +44,7 @@ func tracePath(msrID uuid.UUID, target string) (string, string, string, string, 
 	hops, err := traceroute.Trace(net.ParseIP(target))
 	if err != nil {
 		log.Println("[!] 'tracePath' - Problem performing traceroute:", err)
-		return "", "", "", "", 0, 0, 0, 0, false
+		return "N/A", "N/A", "N/A", "N/A", 0, 0, 0, 0, false
 	}
 	for _, h := range hops {
 		for _, n := range h.Nodes {

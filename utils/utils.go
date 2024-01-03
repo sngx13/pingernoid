@@ -234,13 +234,13 @@ func IPAddrLookupInfo(ipAddr string) (string, string, string, string) {
 	resp, err := http.Get(asnURL)
 	if err != nil {
 		log.Println("[!] 'IPAddrLookupInfo' - Could not complete user IP lookup request:", err)
-		return "", "", "", ""
+		return "N/A", "N/A", "N/A", "N/A"
 	}
 	defer resp.Body.Close()
 	ipInfo := IPLookupData{}
 	if err := json.NewDecoder(resp.Body).Decode(&ipInfo); err != nil {
 		log.Println("[!] 'IPAddrLookupInfo' - Could not decode response from API:", err)
-		return "", "", "", ""
+		return "N/A", "N/A", "N/A", "N/A"
 	} else {
 		isp, asn, country, countryCode = ipInfo.Isp, ipInfo.As, ipInfo.Country, ipInfo.CountryCode
 	}
