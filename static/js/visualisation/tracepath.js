@@ -24,11 +24,33 @@ function drawTracePath(msrID) {
                         enabled: true,
                         type: "arrow",
                     }
+                },
+                color: {
+                    color: "#eb1313",
+                    highlight: "#35c90c",
+                    hover: "#35c90c"
                 }
             },
             nodes: {
                 shape: "box",
-                size: 16
+                size: 16,
+                color: {
+                    border: "#000000",
+                    background: "#2b2e2b",
+                    highlight: {
+                        border: "#35c90c",
+                        background: "#2b2e2b"
+                    },
+                    hover: {
+                        border: "#35c90c",
+                        background: "#2b2e2b"
+                    }
+                },
+                font: {
+                    size: 10,
+                    face: "arial",
+                    color: "#ffffff"
+                },
             },
             physics: {
                 enabled: true,

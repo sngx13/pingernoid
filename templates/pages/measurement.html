@@ -1,17 +1,88 @@
 {[{ template "header.html" .}]}
-<div class="row g-3 mt-3 mb-3">
-    <div class="col-sm-6">
+<div class="row g3 mt-3 mb-3">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h5>
+                            <i class="fa-solid fa-vial-circle-check"></i>
+                            Viewing measurement: <span class="badge bg-dark">{[{ .data.ID }]}</span>
+                        </h5>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-secondary" disabled>
+                                <i class="fa-solid fa-timeline"></i>
+                                Graphs Time Rage (1H - Default)
+                            </button>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    More
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 3)">3H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 6)">6H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 12)">12H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 24)">24H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 48)">48H</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-3 mb-3">
+    <div class="col-sm-4">
         <div class="card h-100">
             <div class="card-body">
                 <h5>
-                    <i class="fa-solid fa-vial-circle-check"></i>
-                    Measurement ID: <span class="badge bg-dark">{[{ .data.ID }]}</span>
+                    <i class="fa-solid fa-route"></i>
+                    Path
                 </h5>
                 <div id="tracePath" style="height: 280px;"></div>
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-chart-simple"></i>
+                    Packet Statistics
+                </h5>
+                <div id="measurement_pkt_chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-frog"></i>
+                    Hops Taken
+                </h5>
+                <div id="measurement_hop_chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-3 mb-3">
+    <div class="col-sm-8">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5>
+                    <i class="fa-solid fa-chart-line"></i>
+                    Latency Statistics
+                </h5>
+                <div id="measurement_rtt_chart"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
         <div class="card h-100">
             <div class="card-body">
                 <h5>
@@ -42,48 +113,13 @@
         </div>
     </div>
 </div>
-<div class="row g-3 mb-3">
-    <div class="col-sm-4">
-        <div class="card">
-            <div class="card-body">
-                <h5>
-                    <i class="fa-solid fa-chart-simple"></i>
-                    Packet Statistics
-                </h5>
-                <div id="measurement_pkt_chart"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="card">
-            <div class="card-body">
-                <h5>
-                    <i class="fa-solid fa-frog"></i>
-                    Hops Taken
-                </h5>
-                <div id="measurement_hop_chart"></div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="card">
-            <div class="card-body">
-                <h5>
-                    <i class="fa-solid fa-chart-line"></i>
-                    Latency Statistics
-                </h5>
-                <div id="measurement_rtt_chart"></div>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Measurement Results -->
 <script src="/static/js/charts/combined.js"></script>
 <script src="/static/js/visualisation/tracepath.js"></script>
 <script>
     window.onload = function () {
-        // Load initial graph with 24H range
-        drawCharts("{[{ .data.ID }]}", 24);
+        // Load initial graph with 1H range
+        drawCharts("{[{ .data.ID }]}", 1);
         // Display latest trace path
         drawTracePath("{[{ .data.ID }]}");
     };
