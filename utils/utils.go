@@ -229,7 +229,7 @@ func GenerateCombinedChartData(msrID string, timeRange int) (map[string]map[stri
 }
 
 func IPAddrLookupInfo(ipAddr string) (string, string, string, string) {
-	isp, asn, country, countryCode := "", "", "", ""
+	isp, asn, country, countryCode := "N/A", "N/A", "N/A", "N/A"
 	asnURL := "http://ip-api.com/json/" + ipAddr
 	resp, err := http.Get(asnURL)
 	if err != nil {
