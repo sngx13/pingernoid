@@ -1,13 +1,15 @@
 {[{ template "header.html" .}]}
+{[{ $id := .data.ID }]}
+{[{ $alerts := .data.Alerts }]}
 <div class="row g3 mt-3 mb-3">
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-3">
-                        <h5>
+                        <h5 class="m-0 p-0">
                             <i class="fa-solid fa-vial-circle-check"></i>
-                            Viewing measurement: <span class="badge bg-dark">{[{ .data.ID }]}</span>
+                            Viewing measurement: <span class="badge bg-dark">{[{ $id }]}</span>
                         </h5>
                     </div>
                     <div class="col-sm-4">
@@ -21,11 +23,11 @@
                                     More
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 3)">3H</a></li>
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 6)">6H</a></li>
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 12)">12H</a></li>
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 24)">24H</a></li>
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ .data.ID }]}', 48)">48H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 3)">3H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 6)">6H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 12)">12H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 24)">24H</a></li>
+                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 48)">48H</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -96,14 +98,54 @@
                                 <th><i class="fa-solid fa-clock"></i> Timestamp</th>
                                 <th><i class="fa-solid fa-gears"></i> Reason</th>
                                 <th><i class="fa-solid fa-comments"></i> Message</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {[{ range .data.Alerts }]}
+                            {[{ range $index, $alert := $alerts }]}
                             <tr>
-                                <td>{[{ .AlertTimestamp }]}</td>
-                                <td>{[{ .AlertReason }]}</td>
-                                <td>{[{ .AlertMessage }]}</td>
+                                <td>{[{ $alert.AlertTimestamp }]}</td>
+                                <td>{[{ $alert.AlertReason }]}</td>
+                                <td>{[{ $alert.AlertMessage }]}</td>
+                                <td>
+                                    <button class="btn btn-xs btn-primary" hx-get="/api/v1/measurements/{[{ $id }]}/alert/{[{ $alert.AlertTimestamp }]}"
+                                        hx-target="#alert_target_{[{ $index }]}"
+                                        nunjucks-template="alert_template_{[{ $index }]}" data-bs-toggle="modal" data-bs-target="#alertInfoModal_{[{ $index }]}">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                    </button>
+                                    <div class="modal fade" id="alertInfoModal_{[{ $index }]}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5">
+                                                        <i class="fa-solid fa-circle-exclamation"></i>
+                                                        Alert Info: {[{ $alert.AlertReason }]} @ {[{ $alert.AlertTimestamp }]}
+                                                    </h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="alert_target_{[{ $index }]}"></div>
+                                                    <template id="alert_template_{[{ $index }]}">
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item">
+                                                                AS Path During Alert: {{ data.alerting_as_path }}
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                AS Path Before Alert: {{ data.expected_as_path }}
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                IP Path During Alert: {{ data.alerting_ip_path }}
+                                                            </li>
+                                                            <li class="list-group-item">
+                                                                IP Path Before Alert: {{ data.expected_ip_path }}
+                                                            </li>
+                                                        </ul>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             {[{ end }]}
                         </tbody>
@@ -119,9 +161,9 @@
 <script>
     window.onload = function () {
         // Load initial graph with 1H range
-        drawCharts("{[{ .data.ID }]}", 1);
+        drawCharts("{[{ $id }]}", 1);
         // Display latest trace path
-        drawTracePath("{[{ .data.ID }]}");
+        drawTracePath("{[{ $id }]}");
     };
     $(document).ready(function () {
         $('#alerts').DataTable(

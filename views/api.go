@@ -32,6 +32,37 @@ func ApiGetMeasurements(c *gin.Context) {
 	})
 }
 
+func ApiGetAlertDetails(c *gin.Context) {
+	msrID := c.Param("id")
+	timestamp := c.Param("timestamp")
+	pathsData := make(map[string]string)
+	var msrWithAlert models.PingMeasurement
+	var msrLatest models.PingMeasurement
+	if err := database.DB.Preload("Results").Where("id = ?", msrID).First(&msrWithAlert).Error; err != nil {
+		c.IndentedJSON(http.StatusOK, gin.H{"status": http.StatusBadRequest, "message": fmt.Sprintf("Error: %s", err)})
+		return
+	}
+	if err := database.DB.Preload("Results").Where("id = ?", msrID).Last(&msrLatest).Error; err != nil {
+		c.IndentedJSON(http.StatusOK, gin.H{"status": http.StatusBadRequest, "message": fmt.Sprintf("Error: %s", err)})
+		return
+	}
+	latestAsPath := msrLatest.Results[len(msrLatest.Results)-1]
+	pathsData["expected_as_path"] = latestAsPath.ASPath
+	pathsData["expected_ip_path"] = latestAsPath.IPPath
+	for _, info := range msrWithAlert.Results {
+		if info.Timestamp == timestamp {
+			pathsData["alerting_as_path"] = info.ASPath
+			pathsData["alerting_ip_path"] = info.IPPath
+			c.IndentedJSON(http.StatusOK, gin.H{
+				"status": http.StatusOK,
+				"data":   pathsData,
+			})
+			return
+		}
+	}
+	c.IndentedJSON(http.StatusOK, gin.H{"status": http.StatusNotFound, "message": "Could not find requested information"})
+}
+
 func ApiGetMeasurement(c *gin.Context) {
 	msrID := c.Param("id")
 	var msr models.PingMeasurement

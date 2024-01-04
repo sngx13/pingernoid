@@ -79,6 +79,7 @@ func main() {
 	api_v1.GET("/measurements", views.ApiGetMeasurements)
 	api_v1.GET("/measurements/:id", views.ApiGetMeasurement)
 	api_v1.GET("/measurements/:id/traceroute/path", views.ApiGetMeasurementTracePathGraph)
+	api_v1.GET("/measurements/:id/alert/:timestamp", views.ApiGetAlertDetails)
 	api_v1.POST("/measurements/create", views.ApiCreateMeasurement)
 	api_v1.POST("/measurements/:id/stop", views.ApiStopMeasurement)
 	api_v1.POST("/measurements/:id/restart", views.ApiRestartMeasurement)
