@@ -26,6 +26,7 @@ type MeasurementResults struct {
 	IPPath       string    `json:"ip_path"`
 	ASPath       string    `json:"as_path"`
 	CombinedPath string    `json:"combined_path"`
+	Alerting     bool      `json:"alerting"`
 }
 
 type PingMeasurement struct {

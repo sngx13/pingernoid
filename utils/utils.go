@@ -56,6 +56,18 @@ type IPLookupData struct {
 	Query       string  `json:"query"`
 }
 
+func RemoveDuplicates(elements []string) []string {
+	encountered := make(map[string]bool)
+	result := []string{}
+	for _, v := range elements {
+		if !encountered[v] {
+			encountered[v] = true
+			result = append(result, v)
+		}
+	}
+	return result
+}
+
 func GenerateUUID() uuid.UUID {
 	uuid, err := uuid.NewUUID()
 	if err != nil {
