@@ -126,21 +126,45 @@
                                                 <div class="modal-body">
                                                     <div id="alert_target_{[{ $index }]}"></div>
                                                     <template id="alert_template_{[{ $index }]}">
-                                                        <ul class="list-group">
+                                                        <ul class="list-group list-group-flush">
                                                             <li class="list-group-item d-flex justify-content-between align-items-start">
-                                                                <span class="font-weight-bold">AS Path During Alert:</span>
+                                                                <span class="fw-bold">
+                                                                    <i class="fa-solid fa-chart-pie"></i>
+                                                                    Packet Statistics:
+                                                                </span>
+                                                                <span class="badge bg-primary rounded-pill small">
+                                                                    Latency: {{ data.avg_rtt }}ms
+                                                                    Jitter: {{ data.jitter }}ms
+                                                                    Loss: {{ data.loss }}%
+                                                                </span>
+                                                            </li>
+                                                            </li>
+                                                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                                                <span class="fw-bold">
+                                                                    <i class="fa-regular fa-clock"></i>
+                                                                    Current AS Path:
+                                                                </span>
                                                                 <span class="badge bg-primary rounded-pill small">{{ data.alerting_as_path }}</span>
                                                             </li>
                                                             <li class="list-group-item d-flex justify-content-between align-items-start">
-                                                                <span class="fw-bold">AS Path Before Alert:</span>
+                                                                <span class="fw-bold">
+                                                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                                                    Previous AS Path:
+                                                                </span>
                                                                 <span class="badge bg-primary rounded-pill small">{{ data.expected_as_path }}</span>
                                                             </li>
                                                             <li class="list-group-item d-flex justify-content-between align-items-start">
-                                                                <span class="fw-bold">IP Path During Alert:</span>
+                                                                <span class="fw-bold">
+                                                                    <i class="fa-regular fa-clock"></i>
+                                                                    Current IP Path:
+                                                                </span>
                                                                 <span class="badge bg-primary rounded-pill small">{{ data.alerting_ip_path }}</span>
                                                             </li>
                                                             <li class="list-group-item d-flex justify-content-between align-items-start">
-                                                                <span class="fw-bold">IP Path Before Alert:</span>
+                                                                <span class="fw-bold">
+                                                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                                                    Previous IP Path:
+                                                                </span>
                                                                 <span class="badge bg-primary rounded-pill small">{{ data.expected_ip_path }}</span>
                                                             </li>
                                                         </ul>

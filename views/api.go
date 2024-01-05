@@ -14,6 +14,16 @@ import (
 	"github.com/sngx13/pingernoid/utils"
 )
 
+type AlertDetails struct {
+	AvgRtt         float64 `json:"avg_rtt"`
+	Jitter         float64 `json:"jitter"`
+	Loss           float64 `json:"loss"`
+	AlertingASPath string  `json:"alerting_as_path"`
+	AlertingIPPath string  `json:"alerting_ip_path"`
+	ExpectedASPath string  `json:"expected_as_path"`
+	ExpectedIPPath string  `json:"expected_ip_path"`
+}
+
 type requestData struct {
 	Target      string `json:"target"`
 	PacketCount string `json:"packet_count"`
@@ -35,7 +45,6 @@ func ApiGetMeasurements(c *gin.Context) {
 func ApiGetAlertDetails(c *gin.Context) {
 	msrID := c.Param("id")
 	timestamp := c.Param("timestamp")
-	pathsData := make(map[string]string)
 	var msrWithAlert models.PingMeasurement
 	var msrLatest models.PingMeasurement
 	if err := database.DB.Preload("Results").Where("id = ?", msrID).First(&msrWithAlert).Error; err != nil {
@@ -47,12 +56,17 @@ func ApiGetAlertDetails(c *gin.Context) {
 		return
 	}
 	latestAsPath := msrLatest.Results[len(msrLatest.Results)-1]
-	pathsData["expected_as_path"] = latestAsPath.ASPath
-	pathsData["expected_ip_path"] = latestAsPath.IPPath
 	for _, info := range msrWithAlert.Results {
 		if info.Timestamp == timestamp {
-			pathsData["alerting_as_path"] = info.ASPath
-			pathsData["alerting_ip_path"] = info.IPPath
+			pathsData := AlertDetails{
+				AvgRtt:         info.AvgRtt,
+				Jitter:         info.Jitter,
+				Loss:           info.Loss,
+				AlertingASPath: info.ASPath,
+				AlertingIPPath: info.IPPath,
+				ExpectedASPath: latestAsPath.ASPath,
+				ExpectedIPPath: latestAsPath.IPPath,
+			}
 			c.IndentedJSON(http.StatusOK, gin.H{
 				"status": http.StatusOK,
 				"data":   pathsData,
