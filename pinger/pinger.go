@@ -97,7 +97,7 @@ func (t *TraceResult) traceHealthCheck() (bool, Alert) {
 		}
 		return true, alert
 	} else if t.PreviousIPHopCount > 1 && t.CurrentIPHopCount > t.PreviousIPHopCount {
-		log.Printf("[i] 'traceHealthCheck' - Current IP path: %s is longer than previous one: %s", t.CurrentASPath, t.PreviousASPath)
+		log.Printf("[i] 'traceHealthCheck' - Current IP path: %d is longer than previous one: %d", t.CurrentIPHopCount, t.PreviousIPHopCount)
 		alert := Alert{
 			AlertTimestamp: time.Now().Format(time.RFC3339),
 			AlertReason:    "IP_PATH_CHANGE_LONGER",
@@ -105,7 +105,7 @@ func (t *TraceResult) traceHealthCheck() (bool, Alert) {
 		}
 		return true, alert
 	} else if t.PreviousIPHopCount > 1 && t.PreviousIPHopCount > t.CurrentIPHopCount {
-		log.Printf("[i] 'traceHealthCheck' - Current IP path: %s is shorter than previous one: %s", t.CurrentASPath, t.PreviousASPath)
+		log.Printf("[i] 'traceHealthCheck' - Current IP path: %d is shorter than previous one: %d", t.CurrentIPHopCount, t.PreviousIPHopCount)
 		alert := Alert{
 			AlertTimestamp: time.Now().Format(time.RFC3339),
 			AlertReason:    "IP_PATH_CHANGE_SHORTER",
