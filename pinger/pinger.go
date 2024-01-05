@@ -141,7 +141,6 @@ func saveResult(msrID uuid.UUID, target string, pingResult PingResult, traceResu
 	pingMsr.LastPollAt = time.Now().Format(time.RFC3339)
 	pingMsr.Status = utils.StatusRunning
 	pingMsr.StatusName = utils.StatusNameRunning
-	pingMsr.Results = append(pingMsr.Results, newResults)
 	// Alerting
 	pingAlert, alertInfo := pingResult.icmpHealthCheck()
 	if pingAlert {
@@ -163,6 +162,7 @@ func saveResult(msrID uuid.UUID, target string, pingResult PingResult, traceResu
 		}
 		pingMsr.Alerts = append(pingMsr.Alerts, newAlert)
 	}
+	pingMsr.Results = append(pingMsr.Results, newResults)
 	if err := database.DB.Save(&pingMsr).Error; err != nil {
 		log.Println("[!] 'saveResult' - Error updating measurement:", err)
 		return err
