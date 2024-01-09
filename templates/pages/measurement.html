@@ -5,34 +5,27 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h5 class="m-0 p-0">
-                            <i class="fa-solid fa-vial-circle-check"></i>
-                            Viewing measurement: <span class="badge bg-dark">{[{ $id }]}</span>
-                        </h5>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="btn-group btn-group-sm align-self-end" role="group">
-                            <button type="button" class="btn btn-secondary" disabled>
-                                <i class="fa-solid fa-timeline"></i>
-                                Graphs Time Rage (1H - Default)
+                <h5 class="m-0 p-0">
+                    <i class="fa-solid fa-vial-circle-check"></i>
+                    Viewing measurement:
+                    <div class="btn-group btn-group-sm align-self-end" role="group">
+                        <button type="button" class="btn btn-dark" disabled>
+                            {[{ $id }]}
+                        </button>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Historical Data
                             </button>
-                            <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    More
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 3)">3H</a></li>
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 6)">6H</a></li>
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 12)">12H</a></li>
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 24)">24H</a></li>
-                                    <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 48)">48H</a></li>
-                                </ul>
-                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 3)">3H</a></li>
+                                <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 6)">6H</a></li>
+                                <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 12)">12H</a></li>
+                                <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 24)">24H</a></li>
+                                <li><a class="dropdown-item" onclick="drawCharts('{[{ $id }]}', 48)">48H</a></li>
+                            </ul>
                         </div>
                     </div>
-                </div>
+                </h5>
             </div>
         </div>
     </div>
