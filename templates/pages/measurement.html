@@ -196,7 +196,8 @@
     $(document).ready(function () {
         $('#alerts').DataTable(
             {
-                order: [[0, "desc"]]
+                order: [[0, "desc"]],
+                lengthMenu: [5, 10, 20, 50, 100]
             }
         )
     }
