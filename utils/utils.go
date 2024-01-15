@@ -200,7 +200,7 @@ func populateResultSlices(resultsInTimeRange []models.MeasurementResults) ([]Rtt
 		jitterResults = append(jitterResults, RttData{X: timestamp, Y: result.Jitter})
 		pktSentResults = append(pktSentResults, RttData{X: timestamp, Y: float64(result.Sent)})
 		pktRcvdResults = append(pktRcvdResults, RttData{X: timestamp, Y: float64(result.Rcvd)})
-		pktLossResults = append(pktLossResults, RttData{X: timestamp, Y: float64(result.Loss)})
+		pktLossResults = append(pktLossResults, RttData{X: timestamp, Y: float64(result.Sent - result.Rcvd)})
 		ipHopCountResults = append(ipHopCountResults, RttData{X: timestamp, Y: float64(result.IPHopCount)})
 		asHopCountResults = append(asHopCountResults, RttData{X: timestamp, Y: float64(result.ASHopCount)})
 	}

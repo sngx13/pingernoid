@@ -175,28 +175,33 @@ func ApiCreateMeasurement(c *gin.Context) {
 	}
 	frequency := utils.ConvertStringToInt(requestData.Frequency)
 	packetCount := utils.ConvertStringToInt(requestData.PacketCount)
-	if requestData.Target == "" || frequency <= 0 || packetCount <= 0 {
-		c.IndentedJSON(http.StatusOK, gin.H{"status": http.StatusNotAcceptable, "message": "Missing required parameters"})
+	if net.ParseIP(requestData.Target) == nil {
+		if frequency <= 0 || packetCount <= 0 {
+			c.IndentedJSON(http.StatusOK, gin.H{"status": http.StatusNotAcceptable, "message": "Please specify all parameters!"})
+			return
+		}
+		c.IndentedJSON(http.StatusOK, gin.H{"status": http.StatusNotAcceptable, "message": "Invalid IP provided!"})
 		return
-	}
-	msr, err := utils.AddMsrToDatabase(requestData.Target, packetCount, frequency)
-	if err != nil {
-		message := fmt.Sprintf("Could not add measurement to database for processing, %v", err)
+	} else if net.ParseIP(requestData.Target) != nil {
+		msr, err := utils.AddMsrToDatabase(requestData.Target, packetCount, frequency)
+		if err != nil {
+			message := fmt.Sprintf("Could not add measurement to database for processing, %v", err)
+			c.IndentedJSON(http.StatusOK,
+				gin.H{
+					"status":  http.StatusBadRequest,
+					"message": message,
+				})
+			return
+		}
+		scheduler.SchedulePingMeasurement(msr.ID, msr.Target, msr.PacketCount, msr.Frequency)
+		c.Header("HX-Trigger", "pageRefresh")
+		message := fmt.Sprintf("Measurement: %s was added successfully", msr.ID.String())
 		c.IndentedJSON(http.StatusOK,
 			gin.H{
-				"status":  http.StatusBadRequest,
+				"status":  http.StatusAccepted,
 				"message": message,
 			})
-		return
 	}
-	scheduler.SchedulePingMeasurement(msr.ID, msr.Target, msr.PacketCount, msr.Frequency)
-	c.Header("HX-Trigger", "pageRefresh")
-	message := fmt.Sprintf("Measurement: %s was added successfully", msr.ID.String())
-	c.IndentedJSON(http.StatusOK,
-		gin.H{
-			"status":  http.StatusAccepted,
-			"message": message,
-		})
 }
 
 func ApiCheckTargetIP(c *gin.Context) {
